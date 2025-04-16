@@ -1,9 +1,10 @@
 const express = require('express');
-const app = express();
 const serverless = require('serverless-http');
 
+const app = express();
 app.use(express.json());
 
+// GET route
 app.get('/', (req, res) => {
   res.json([
     { id: 1, name: 'Alice' },
@@ -11,19 +12,12 @@ app.get('/', (req, res) => {
   ]);
 });
 
+// POST route
 app.post('/', (req, res) => {
   const user = req.body;
-  console.log('New user received:', user);
+  console.log('Received user:', user);
   res.status(201).json({ message: 'User added', user });
 });
 
 module.exports = app;
 module.exports.handler = serverless(app);
-
-// Local run support
-if (require.main === module) {
-  const port = 3001;
-  app.listen(port, () => {
-    console.log(`Local server running at http://localhost:${port}`);
-  });
-}
